@@ -214,17 +214,34 @@ class Pnoise(object):
         return pnoise_class
 
 
-    def plot(self, *args, **kwargs):
-        if 'label' in kwargs.keys():
-            ax = plt.semilogx(self.fm, self.ldbc, *args, **kwargs)
+    def plot(self, *args, ax=None,**kwargs):
+        """
+        Plot the phase noise data.
+
+        Parameters
+        ----------
+        ax : matplotlib.axes.Axes, optional
+            An existing matplotlib Axes object to plot on. If None, a new figure and axes are created.
+        *args : tuple
+            Additional positional arguments passed to `semilogx`.
+        **kwargs : dict
+            Additional keyword arguments passed to `semilogx`.
+
+        Returns
+        -------
+        ax : matplotlib.axes.Axes
+            The Axes object with the plot.
+        """
+        if ax is None:
+            fig, ax = plt.subplots()
+        if 'label' in kwargs:
+            ax.semilogx(self.fm, self.ldbc, *args, **kwargs)
         else:
-            ax = plt.semilogx(self.fm, self.ldbc, label=self.label,
-                              *args, **kwargs)
-        plt.ylabel('$\mathcal{L}$(dBc/Hz)')
-        plt.xlabel('$f_m$(Hz)')
-
+            ax.semilogx(self.fm, self.ldbc, label=self.label, *args, **kwargs)
+        ax.set_ylabel(r'$\mathcal{L}$(dBc/Hz)')
+        ax.set_xlabel(r'$f_m$(Hz)')
         return ax
-
+    
     def __add__(self, other):
         """
         Addition of though pnoise components
