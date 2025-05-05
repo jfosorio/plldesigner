@@ -1,0 +1,3 @@
+**/.ipynb_checkpoints
+# Ignore matlab autosave files
+__pycache__/
